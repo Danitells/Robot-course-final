@@ -1,32 +1,29 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.
 version: 2.1
-orbs:
-  node: circleci/node@5
+
+executors:
+  cypress-executor:
+    docker:
+      - image: cypress/included:13.7.3
+    working_directory: ~/project
+
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
+  cypress-run:
+    executor: cypress-executor
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run:
-          name: Run tests
-          command: echo \"No test specified in package.json\"
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
+          name: Install dependencies
+          command: npm ci
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Run Cypress API Tests
+          command: npx cypress run --spec "cypress/e2e/API/*.js"
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
 workflows:
-  build-and-test:
+  version: 2
+  test-workflow:
     jobs:
-      - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+      - cypress-run
