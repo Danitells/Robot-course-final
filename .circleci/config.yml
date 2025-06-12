@@ -6,6 +6,11 @@ executors:
       - image: cypress/included:13.7.3
     working_directory: ~/project
 
+  k6-executor:
+    docker:
+      - image: grafana/k6:0.49.0
+    working_directory: ~/project
+
 jobs:
   cypress-run:
     executor: cypress-executor
@@ -22,8 +27,19 @@ jobs:
       - store_artifacts:
           path: cypress/screenshots
 
+  k6-run:
+    executor: k6-executor
+    steps:
+      - checkout
+      - run:
+          name: Run K6 Tests
+          command: k6 run k6/script.js
+
 workflows:
   version: 2
   test-workflow:
     jobs:
       - cypress-run
+      - k6-run:
+          requires:
+            - cypress-run
