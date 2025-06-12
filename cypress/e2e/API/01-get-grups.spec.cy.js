@@ -2,9 +2,10 @@ describe('API tests', () => {
   const team_id = Cypress.env('TeamID');
   const token = Cypress.env('Token');
   const baseUrl = Cypress.env('BaseUrl');
-  const url = `${baseUrl}/api/v2/team/${team_id}/goal`;
+  const url = `${baseUrl}/api/v2/group?team_id=${team_id}`;
 
-  it('GET Goals with valid token', () => {
+
+  it('GET groups with valid token', () => {
     cy.request({
       method: 'GET',
       url: url,
@@ -12,19 +13,22 @@ describe('API tests', () => {
         'Authorization': token
       }
     }).then((response) => {
+      console.log(response
+        
+      )
       expect(response.status).to.eq(200);
-      expect(response.body.goals).to.be.an('array');
+      expect(response.body.groups).to.be.an('array');
       
-      if (response.body.goals.length > 0) {
-        const goal = response.body.goals[0];
-        expect(goal).to.have.property('id');
-        expect(goal).to.have.property('name');
-        expect(goal).to.have.property('team_id');
+      if (response.body.groups.length > 0) {
+        const group = response.body.groups[0];
+        expect(group).to.have.property('id');
+        expect(group).to.have.property('name');
+        expect(group).to.have.property('team_id');
       }
     });
   });
 
-  it('GET Goals with expired token', () => {
+  it('GET groups with expired token', () => {
     cy.request({
       failOnStatusCode: false,
       method: 'GET',

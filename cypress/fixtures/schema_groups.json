@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "team_id": { "type": "string" },
+    "userid": { "type": "integer" },
+    "name": { "type": "string" },
+    "handle": { "type": "string" },
+    "date_created": { "type": "string" },
+    "metadata": { "type": ["object", "null"] },
+    "description": { "type": ["string", "null"] },
+    "bookmarks": { "type": ["object", "null"] },
+    "description_visibility": { "type": ["string", "null"] },
+    "bookmarks_visibility": { "type": ["string", "null"] },
+    "initials": { "type": "string" },
+    "members": { "type": "array" },
+    "avatar": {
+      "type": "object",
+      "properties": {
+        "attachment_id": { "type": ["string", "null"] },
+        "color": { "type": ["string", "null"] },
+        "source": { "type": ["string", "null"] },
+        "icon": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "locations": {
+      "type": "object",
+      "properties": {
+        "categories": { "type": "array" },
+        "projects": { "type": "array" },
+        "subcategories": { "type": "array" }
+      },
+      "additionalProperties": true
+    },
+    "description_size": { "type": "string" }
+  },
+  "additionalProperties": true
+}
