@@ -4,3 +4,4 @@ cypress/downloads/
 .cypress/
 .vscode/
 .DS_Store
+cypress/screenshots
